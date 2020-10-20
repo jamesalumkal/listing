@@ -9,5 +9,6 @@ public class UserList {
 
     private String listName;
     private String profileId;
+    private UserListType listType;
 
 }
