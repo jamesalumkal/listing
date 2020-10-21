@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 public class UserListTest {
 
     @Test
-    public void create_emptyUser() throws Exception {
+    public void create_emptyUserList() throws Exception {
         UserList userList = new UserList();
     }
 
@@ -33,5 +33,20 @@ public class UserListTest {
     }
 
 
+    @Test
+    public void setListAccessType() throws Exception {
+        UserList userList = new UserList();
+        userList.setListAccessType(UserListAccessType.PUBLIC);
 
+        Assertions.assertEquals(UserListAccessType.PUBLIC, userList.getListAccessType());
+    }
+
+    @Test
+    public void addProducts() throws Exception {
+        UserList userList = new UserList();
+        UserListProduct product = new UserListProduct();
+        userList.addProduct(product);
+
+        Assertions.assertEquals(1, userList.getUserListProducts().size());
+    }
 }
