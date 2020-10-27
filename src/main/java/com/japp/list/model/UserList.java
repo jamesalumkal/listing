@@ -3,6 +3,7 @@ package com.japp.list.model;
 import com.japp.list.config.ListConfig;
 import com.japp.list.exceptions.ProductAlreadyExistsException;
 import com.japp.list.exceptions.SizeLimitExceededException;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,7 @@ import java.util.List;
  * Root entity of the UserList Aggregate
  */
 
-@Getter
-@Setter
+@Data
 public class UserList {
 
     private String listName;
