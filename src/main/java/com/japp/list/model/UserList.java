@@ -8,18 +8,24 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 
 /**
  * Root entity of the UserList Aggregate
  */
 
 @Data
+@Document("UserList")
 public class UserList {
 
+    @Id
+    private String listId;
     private String listName;
     private String profileId;
     private UserListType listType;

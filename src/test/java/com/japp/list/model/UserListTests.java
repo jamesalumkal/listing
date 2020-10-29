@@ -2,20 +2,16 @@ package com.japp.list.model;
 
 import com.japp.list.exceptions.ProductAlreadyExistsException;
 import com.japp.list.exceptions.SizeLimitExceededException;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.ConfigFileApplicationContextInitializer;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserListTest {
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+public class UserListTests {
 
     UserList userList;
 
@@ -38,28 +34,27 @@ public class UserListTest {
         userList.setListName(userListName);
         userList.setProfileId(userProfId);
 
-        Assertions.assertEquals(userListName, userList.getListName());
-        Assertions.assertEquals(userProfId, userList.getProfileId());
+        assertThat(userList.getListName()).isEqualTo(userListName);
+        assertThat(userList.getProfileId()).isEqualTo(userProfId);
     }
 
     @Test
     public void setListType() throws Exception {
         userList.setListType(UserListType.REGULAR);
-       Assertions.assertEquals(UserListType.REGULAR, userList.getListType());
+        assertThat(userList.getListType()).isEqualTo(UserListType.REGULAR);
     }
-
 
     @Test
     public void setListAccessType() throws Exception {
         userList.setListAccessType(UserListAccessType.PUBLIC);
-        Assertions.assertEquals(UserListAccessType.PUBLIC, userList.getListAccessType());
+        assertThat(userList.getListAccessType()).isEqualTo(UserListAccessType.PUBLIC);
     }
 
     @Test
     public void addProducts() throws Exception {
         UserListProduct product = new UserListProduct();
         userList.addProduct(product);
-        Assertions.assertEquals(1, userList.getUserListProducts().size());
+        assertThat(userList.getUserListProducts()).isNotEmpty();
     }
 
     @Test
@@ -68,11 +63,11 @@ public class UserListTest {
         product.setProductId("ProdId100");
 
         userList.addProduct(product);
-        Assertions.assertEquals(1, userList.getUserListProducts().size());
+        assertThat(userList.getUserListProducts().size()).isEqualTo(1);
 
-        Assertions.assertThrows(ProductAlreadyExistsException.class, () -> {
+         assertThatThrownBy(() -> {
             userList.addProduct(product);
-        });
+         }).isInstanceOf(ProductAlreadyExistsException.class).hasMessage("Product already exists!");
     }
 
     @Test
@@ -80,19 +75,19 @@ public class UserListTest {
         UserListProduct product = new UserListProduct();
         product.setProductId("ProdId100");
         userList.addProduct(product);
-        Assertions.assertEquals(1, userList.getUserListProducts().size());
+        assertThat(userList.getUserListProducts().size()).isEqualTo(1);
 
         userList.removeProduct(product);
-        Assertions.assertEquals(0, userList.getUserListProducts().size());
+        assertThat(userList.getUserListProducts().size()).isEqualTo(0);
     }
 
     @Test
     public void excedLimit_throwsException() throws Exception {
-        Assertions.assertThrows(SizeLimitExceededException.class, () -> {
+        assertThatThrownBy(() -> {
             for (UserListProduct product : getUserListProducts(10)) {
                 userList.addProduct(product);
             }
-        });
+        }).isInstanceOf(SizeLimitExceededException.class).hasMessage("Size Limit Exceeded!");
     }
 
     private List<UserListProduct> getUserListProducts(int count) {

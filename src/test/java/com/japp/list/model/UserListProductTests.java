@@ -1,11 +1,11 @@
 package com.japp.list.model;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
-class UserListProductTest {
+
+class UserListProductTests {
 
     @Test
     public void create_emptyUserList() throws Exception {
@@ -15,7 +15,7 @@ class UserListProductTest {
         prod.setProductId(productId);
         prod.setProductTitle(productTitle);
 
-        Assertions.assertEquals(productId, prod.getProductId());
-        Assertions.assertEquals(productTitle, prod.getProductTitle());
+        assertThat(prod.getProductId()).isEqualTo(productId);
+        assertThat(prod.getProductTitle()).isEqualTo(productTitle);
     }
 }
