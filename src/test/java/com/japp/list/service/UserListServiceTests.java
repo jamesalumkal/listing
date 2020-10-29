@@ -7,7 +7,6 @@ import com.japp.list.model.UserListAccessType;
 import com.japp.list.model.UserListProduct;
 import com.japp.list.model.UserListType;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,15 +14,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
 class UserListServiceTests {
@@ -61,7 +56,7 @@ class UserListServiceTests {
         Mockito.when(userListRepository.save(Mockito.any())).thenReturn(Mockito.mock(UserList.class));
 
         UserList userList = userListService.createUserList(listName, profileId, userListAccessType, userListType, userListProducts);
-        Assertions.assertNotNull(userList);
+        assertThat(userList).isNotNull();
     }
 
 }
