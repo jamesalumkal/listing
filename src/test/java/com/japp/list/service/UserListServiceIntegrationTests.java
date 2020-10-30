@@ -60,4 +60,30 @@ class UserListServiceIntegrationTests {
 
         assertThat(userListService.getList(profileId, userListFromDB.getListId()).getListName()).isEqualTo(userListName);
     }
+
+    @Test
+    public void addProductsToUserList_returnUpdatedUserList() throws Exception {
+        String userListName = "UserListName";
+        String profileId = "ProfId103";
+        UserListType userListType = UserListType.REGULAR;
+        UserListAccessType userListAccessType = UserListAccessType.PUBLIC;
+        List<UserListProduct> userListProducts = getUserListProducts(2, "Shirt");
+        UserList userListFromDB = userListService.createUserList(userListName, profileId, userListAccessType, userListType, userListProducts);
+
+        assertThat(userListService.addProducts(
+                profileId, userListFromDB.getListId(), getUserListProducts(2, "Book")).getUserListProducts().size()
+        ).isEqualTo(4);
+    }
+
+    private List<UserListProduct> getUserListProducts(int count, String startsWIth) {
+        List<UserListProduct> productList = new ArrayList<>();
+        for (int i=0; i<count; i++) {
+            UserListProduct product = new UserListProduct();
+            product.setProductId(startsWIth+"Id_"+i);
+            product.setProductTitle(startsWIth+"Title_"+i);
+            productList.add(product);
+        }
+        return productList;
+    }
+
 }

@@ -2,6 +2,8 @@ package com.japp.list.service;
 
 import com.japp.list.config.ListConfig;
 import com.japp.list.dao.UserListRepository;
+import com.japp.list.exceptions.ProductAlreadyExistsException;
+import com.japp.list.exceptions.SizeLimitExceededException;
 import com.japp.list.model.UserList;
 import com.japp.list.model.UserListAccessType;
 import com.japp.list.model.UserListProduct;
@@ -46,6 +48,18 @@ public class UserListServiceImpl implements UserListService {
     @Override
     public UserList getList(String profileId, String listId) {
         return userListRepository.findByProfileIdAndListId(profileId, listId);
+    }
+
+    @Override
+    public UserList addProducts(String profileId, String listId, List<UserListProduct> userListProducts)
+            throws SizeLimitExceededException, ProductAlreadyExistsException {
+        UserList userList = userListRepository.findByProfileIdAndListId(profileId, listId);
+        if (null != userList) {
+            userListProducts.forEach(p -> {
+                userList.getUserListProducts().add(p);
+            });
+        }
+        return userListRepository.save(userList);
     }
 
 

@@ -1,5 +1,7 @@
 package com.japp.list.service;
 
+import com.japp.list.exceptions.ProductAlreadyExistsException;
+import com.japp.list.exceptions.SizeLimitExceededException;
 import com.japp.list.model.UserList;
 import com.japp.list.model.UserListAccessType;
 import com.japp.list.model.UserListProduct;
@@ -20,4 +22,7 @@ public interface UserListService {
 
 
     public UserList getList(String profileId, String listId);
+
+    public UserList addProducts(String profileId, String listId, List<UserListProduct> userListProducts)
+            throws SizeLimitExceededException, ProductAlreadyExistsException;
 }

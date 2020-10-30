@@ -112,28 +112,25 @@ class UserListServiceTests {
         assertThat(userListService.getList(profileId, listId).getListName()).isEqualTo(listName);
     }
 
-//    @Test
-//    public void addItemsToUserList() throws Exception {
-//        String profileId = "ProfId100";
-//        String listName = "UserListName100";
-//        UserListAccessType userListAccessType = UserListAccessType.PUBLIC;
-//        UserListType userListType = UserListType.REGULAR;
-//        List<UserListProduct> userListProducts = new ArrayList<>();
-//
-//        Mockito.when(userListFactory.createUserList(Mockito.any(), Mockito.any())).thenReturn(Mockito.mock(UserList.class));
-//        Mockito.when(listConfig.getAllowedsize()).thenReturn(10);
-//        Mockito.when(userListRepository.save(Mockito.any())).thenReturn(Mockito.mock(UserList.class));
-//
-//        List<UserList> list = new ArrayList<>();
-//        list.add(Mockito.mock(UserList.class));
-//        Mockito.when(userListRepository.findByProfileId(profileId)).thenReturn(list);
-//
-//        UserList userList = userListService.createUserList(listName, profileId, userListAccessType, userListType, userListProducts);
-//
-//        userListService.addProducts(getUserListProducts(1));
-//
-//
-//    }
+    @Test
+    public void addItemsToUserList() throws Exception {
+        String profileId = "ProfId100";
+        String listId = "uuid";
+
+        List<UserListProduct> userListProducts = getUserListProducts(1);
+        UserList mockUserList = new UserList();
+        mockUserList.setProfileId(profileId);
+        mockUserList.setListId(listId);
+
+        mockUserList.getUserListProducts().add(userListProducts.get(0));
+
+        Mockito.when(userListRepository.findByProfileIdAndListId(Mockito.any(), Mockito.any())).thenReturn(Mockito.mock(UserList.class));
+        Mockito.when(userListRepository.save(Mockito.any())).thenReturn(mockUserList);
+
+        assertThat(userListService.addProducts(profileId, listId, getUserListProducts(1))
+                .getUserListProducts().size()).isEqualTo(1);
+
+    }
 
 
     private List<UserListProduct> getUserListProducts(int count) {
