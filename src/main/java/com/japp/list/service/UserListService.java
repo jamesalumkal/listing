@@ -19,4 +19,5 @@ public interface UserListService {
     public List<UserList> getLists(String profileId);
 
 
+    public UserList getList(String profileId, String listId);
 }

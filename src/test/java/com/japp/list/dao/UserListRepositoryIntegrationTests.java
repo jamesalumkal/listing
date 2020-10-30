@@ -4,12 +4,11 @@ import com.japp.list.model.UserList;
 import com.japp.list.model.UserListAccessType;
 import com.japp.list.model.UserListProduct;
 import com.japp.list.model.UserListType;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 class UserListRepositoryIntegrationTests {
@@ -31,11 +30,20 @@ class UserListRepositoryIntegrationTests {
     }
 
     @Test
-    public void getUserListsByProfileId_returm() throws Exception {
+    public void getUserListsByProfileId_return() throws Exception {
         UserList userList  = getUserList();
         userListRepository.save(userList);
 
         assertThat(userListRepository.findByProfileId(userList.getProfileId()).size()).isEqualTo(1);
+    }
+
+    @Test
+    public void getUserListByProfileIdAndListId_return() throws Exception {
+        UserList userList  = getUserList();
+        UserList userListFromDB = userListRepository.save(userList);
+
+        assertThat(userListRepository.findByProfileIdAndListId(
+                userList.getProfileId(), userListFromDB.getListId()).getListName()).isEqualTo(userList.getListName());
     }
 
     private UserList getUserList() {

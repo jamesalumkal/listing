@@ -43,5 +43,10 @@ public class UserListServiceImpl implements UserListService {
         return userListRepository.findByProfileId(profileId);
     }
 
+    @Override
+    public UserList getList(String profileId, String listId) {
+        return userListRepository.findByProfileIdAndListId(profileId, listId);
+    }
+
 
 }

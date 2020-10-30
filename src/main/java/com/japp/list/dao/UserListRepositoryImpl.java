@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -31,5 +32,13 @@ public class UserListRepositoryImpl implements UserListRepository {
         return mongoTemplate.find(query, UserList.class);
     }
 
+    @Override
+    public UserList findByProfileIdAndListId(String profileId, String listId) {
+        Query query = new Query(Criteria.where("profileId").is(profileId).and("listId").is(listId));
+        List<UserList> userLists = mongoTemplate.find(query, UserList.class);
+        if (!CollectionUtils.isEmpty(userLists))
+            return userLists.get(0);
+        return null;
+    }
 
 }

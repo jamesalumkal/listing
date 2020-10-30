@@ -49,5 +49,15 @@ class UserListServiceIntegrationTests {
         assertThat(userListService.getLists(profileId).size()).isEqualTo(2);
     }
 
+    @Test
+    public void getUserListByProfileIdAndListId_returnValidUserList() throws Exception {
+        String userListName = "UserListName";
+        String profileId = "ProfId102";
+        UserListType userListType = UserListType.REGULAR;
+        UserListAccessType userListAccessType = UserListAccessType.PUBLIC;
+        List<UserListProduct> userListProducts = new ArrayList<>();
+        UserList userListFromDB = userListService.createUserList(userListName, profileId, userListAccessType, userListType, userListProducts);
 
+        assertThat(userListService.getList(profileId, userListFromDB.getListId()).getListName()).isEqualTo(userListName);
+    }
 }
