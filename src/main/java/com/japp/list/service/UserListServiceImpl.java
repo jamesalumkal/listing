@@ -38,6 +38,10 @@ public class UserListServiceImpl implements UserListService {
         return userListRepository.save(userList);
     }
 
+    @Override
+    public List<UserList> getLists(String profileId) {
+        return userListRepository.findByProfileId(profileId);
+    }
 
 
 }

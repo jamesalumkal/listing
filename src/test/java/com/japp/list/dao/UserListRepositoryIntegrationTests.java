@@ -30,6 +30,14 @@ class UserListRepositoryIntegrationTests {
         assertThat(userListRepository.find(userList).getListName()).isEqualTo(userList.getListName());
     }
 
+    @Test
+    public void getUserListsByProfileId_returm() throws Exception {
+        UserList userList  = getUserList();
+        userListRepository.save(userList);
+
+        assertThat(userListRepository.findByProfileId(userList.getProfileId()).size()).isEqualTo(1);
+    }
+
     private UserList getUserList() {
         UserList userList = new UserList();
         userList.setListId("ListId100");

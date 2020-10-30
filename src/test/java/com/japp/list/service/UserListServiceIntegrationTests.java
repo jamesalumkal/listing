@@ -34,6 +34,20 @@ class UserListServiceIntegrationTests {
         assertThat(userList.getAllowedLimit()).isEqualTo(10);
     }
 
+    @Test
+    public void getUserListsByProfileId_returnAllUserLists() throws Exception {
+        String userListName = "UserListName";
+        String profileId = "ProfId101";
+        UserListType userListType = UserListType.REGULAR;
+        UserListAccessType userListAccessType = UserListAccessType.PUBLIC;
+        List<UserListProduct> userListProducts = new ArrayList<>();
+        userListService.createUserList(userListName, profileId, userListAccessType, userListType, userListProducts);
+
+        userListName = "UserListAnotherName";
+        userListService.createUserList(userListName, profileId, userListAccessType, userListType, userListProducts);
+
+        assertThat(userListService.getLists(profileId).size()).isEqualTo(2);
+    }
 
 
 }

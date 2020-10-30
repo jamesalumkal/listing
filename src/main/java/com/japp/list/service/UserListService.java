@@ -16,5 +16,7 @@ public interface UserListService {
                                    List<UserListProduct> userListProducts);
 
 
+    public List<UserList> getLists(String profileId);
+
 
 }
