@@ -53,7 +53,6 @@ class UserListRepositoryIntegrationTests {
         userList.setListName("ListName");
         userList.setListAccessType(UserListAccessType.PUBLIC);
         userList.setListType(UserListType.BLACK_FRIDAY);
-        userList.setAllowedLimit(10);
 
         UserListProduct userListProduct100 = new UserListProduct();
         userListProduct100.setProductId("ProdId100");

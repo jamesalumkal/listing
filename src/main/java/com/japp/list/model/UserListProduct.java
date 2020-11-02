@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Entity in the UserList Aggregate
+ * Value Object in the UserList Aggregate
  */
 @Data
 public class UserListProduct {

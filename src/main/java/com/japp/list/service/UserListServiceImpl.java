@@ -28,15 +28,14 @@ public class UserListServiceImpl implements UserListService {
 
     @Override
     public UserList createUserList(String listName, String profileId, UserListAccessType userListAccessType,
-                                   UserListType userListType, List<UserListProduct> userListProducts) {
+                                   UserListType userListType, List<UserListProduct> userListProducts)
+                throws  SizeLimitExceededException, ProductAlreadyExistsException {
         UserList userList = userListFactory.createUserList(userListType, userListAccessType);
-        userList.setAllowedLimit(listConfig.getAllowedsize());
         userList.setListName(listName);
         userList.setProfileId(profileId);
-        userListProducts.forEach(p -> {
-            userList.getUserListProducts().add(p);
-        });
-
+        for (UserListProduct product : userListProducts) {
+            userList.addProduct(product, listConfig.getAllowedsize());
+        }
         return userListRepository.save(userList);
     }
 
@@ -55,9 +54,9 @@ public class UserListServiceImpl implements UserListService {
             throws SizeLimitExceededException, ProductAlreadyExistsException {
         UserList userList = userListRepository.findByProfileIdAndListId(profileId, listId);
         if (null != userList) {
-            userListProducts.forEach(p -> {
-                userList.getUserListProducts().add(p);
-            });
+            for (UserListProduct prod : userListProducts) {
+                userList.addProduct(prod, listConfig.getAllowedsize());
+            }
         }
         return userListRepository.save(userList);
     }

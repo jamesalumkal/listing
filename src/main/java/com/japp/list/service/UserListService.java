@@ -15,7 +15,8 @@ public interface UserListService {
 
     public UserList createUserList(String listName, String profileId,
                                    UserListAccessType userListAccessType, UserListType userListType,
-                                   List<UserListProduct> userListProducts);
+                                   List<UserListProduct> userListProducts)
+            throws SizeLimitExceededException, ProductAlreadyExistsException;
 
 
     public List<UserList> getLists(String profileId);

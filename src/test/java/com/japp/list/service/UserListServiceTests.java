@@ -35,14 +35,6 @@ class UserListServiceTests {
     @Mock
     private UserListRepository userListRepository;
 
-    @BeforeEach
-    void setUp() {
-    }
-
-    @AfterEach
-    void tearDown() {
-    }
-
     @Test
     public void createEmptyUserList_return() throws Exception {
         String profileId = "ProfId100";
@@ -51,9 +43,8 @@ class UserListServiceTests {
         UserListType userListType = UserListType.REGULAR;
         List<UserListProduct> userListProducts = new ArrayList<>();
 
-        Mockito.when(userListFactory.createUserList(Mockito.any(), Mockito.any())).thenReturn(Mockito.mock(UserList.class));
-        Mockito.when(listConfig.getAllowedsize()).thenReturn(10);
-        Mockito.when(userListRepository.save(Mockito.any())).thenReturn(Mockito.mock(UserList.class));
+        Mockito.when(userListFactory.createUserList(Mockito.any(), Mockito.any())).thenReturn(new UserList());
+        Mockito.when(userListRepository.save(Mockito.any())).thenReturn(new UserList());
 
         UserList userList = userListService.createUserList(listName, profileId, userListAccessType, userListType, userListProducts);
         assertThat(userList).isNotNull();
@@ -68,7 +59,6 @@ class UserListServiceTests {
         List<UserListProduct> userListProducts = new ArrayList<>();
 
         Mockito.when(userListFactory.createUserList(Mockito.any(), Mockito.any())).thenReturn(Mockito.mock(UserList.class));
-        Mockito.when(listConfig.getAllowedsize()).thenReturn(10);
         Mockito.when(userListRepository.save(Mockito.any())).thenReturn(Mockito.mock(UserList.class));
 
         List<UserList> list = new ArrayList<>();
@@ -98,7 +88,6 @@ class UserListServiceTests {
         List<UserListProduct> userListProducts = new ArrayList<>();
 
         Mockito.when(userListFactory.createUserList(Mockito.any(), Mockito.any())).thenReturn(Mockito.mock(UserList.class));
-        Mockito.when(listConfig.getAllowedsize()).thenReturn(10);
         Mockito.when(userListRepository.save(Mockito.any())).thenReturn(Mockito.mock(UserList.class));
 
         UserList userList = new UserList();

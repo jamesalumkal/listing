@@ -18,7 +18,6 @@ public class UserListTests {
     @BeforeEach
     public void initBeforeEachTest() {
         userList = new UserList();
-        userList.setAllowedLimit(5);
     }
 
     @Test
@@ -53,7 +52,7 @@ public class UserListTests {
     @Test
     public void addProducts() throws Exception {
         UserListProduct product = new UserListProduct();
-        userList.addProduct(product);
+        userList.addProduct(product, 1);
         assertThat(userList.getUserListProducts()).isNotEmpty();
     }
 
@@ -62,11 +61,11 @@ public class UserListTests {
         UserListProduct product = new UserListProduct();
         product.setProductId("ProdId100");
 
-        userList.addProduct(product);
+        userList.addProduct(product, 2);
         assertThat(userList.getUserListProducts().size()).isEqualTo(1);
 
          assertThatThrownBy(() -> {
-            userList.addProduct(product);
+            userList.addProduct(product, 2);
          }).isInstanceOf(ProductAlreadyExistsException.class).hasMessage("Product already exists!");
     }
 
@@ -74,7 +73,7 @@ public class UserListTests {
     public void removeProducts() throws Exception {
         UserListProduct product = new UserListProduct();
         product.setProductId("ProdId100");
-        userList.addProduct(product);
+        userList.addProduct(product, 1);
         assertThat(userList.getUserListProducts().size()).isEqualTo(1);
 
         userList.removeProduct(product);
@@ -85,7 +84,7 @@ public class UserListTests {
     public void excedLimit_throwsException() throws Exception {
         assertThatThrownBy(() -> {
             for (UserListProduct product : getUserListProducts(10)) {
-                userList.addProduct(product);
+                userList.addProduct(product, 5);
             }
         }).isInstanceOf(SizeLimitExceededException.class).hasMessage("Size Limit Exceeded!");
     }

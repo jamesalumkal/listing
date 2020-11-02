@@ -31,16 +31,15 @@ public class UserList {
     private UserListType listType;
     private UserListAccessType listAccessType;
     private List<UserListProduct> userListProducts;
-    @Value("${userlist.allowedsize : 5 }")
-    private int allowedLimit;
 
     public UserList() {
         userListProducts = new ArrayList<>();
     }
 
-    public boolean addProduct(UserListProduct prod) throws SizeLimitExceededException, ProductAlreadyExistsException {
+    public boolean addProduct(UserListProduct prod, int allowedsize)
+            throws SizeLimitExceededException, ProductAlreadyExistsException {
 
-        if (userListProducts.size() == allowedLimit)
+        if (userListProducts.size() >= allowedsize)
             throw new SizeLimitExceededException();
 
         if (userListProducts.stream().anyMatch( p -> p.getProductId().equals(prod.getProductId())))
