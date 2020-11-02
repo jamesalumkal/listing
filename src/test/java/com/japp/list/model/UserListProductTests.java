@@ -9,11 +9,10 @@ class UserListProductTests {
 
     @Test
     public void create_emptyUserList() throws Exception {
-        UserListProduct prod = new UserListProduct();
         final String productId = "PrdId100";
         final String productTitle = "Prd100Title";
-        prod.setProductId(productId);
-        prod.setProductTitle(productTitle);
+
+        UserListProduct prod = new UserListProduct(productId, productTitle);
 
         assertThat(prod.getProductId()).isEqualTo(productId);
         assertThat(prod.getProductTitle()).isEqualTo(productTitle);

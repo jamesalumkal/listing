@@ -3,6 +3,7 @@ package com.japp.list.model;
 import com.japp.list.config.ListConfig;
 import com.japp.list.exceptions.ProductAlreadyExistsException;
 import com.japp.list.exceptions.SizeLimitExceededException;
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,7 +31,13 @@ public class UserList {
     private String profileId;
     private UserListType listType;
     private UserListAccessType listAccessType;
+
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
     private List<UserListProduct> userListProducts;
+    public List<UserListProduct> getUserListProducts() {
+        return new ArrayList<>(userListProducts);
+    }
 
     public UserList() {
         userListProducts = new ArrayList<>();

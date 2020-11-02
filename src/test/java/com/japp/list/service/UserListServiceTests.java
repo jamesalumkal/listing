@@ -6,8 +6,6 @@ import com.japp.list.model.UserList;
 import com.japp.list.model.UserListAccessType;
 import com.japp.list.model.UserListProduct;
 import com.japp.list.model.UserListType;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -105,30 +103,22 @@ class UserListServiceTests {
     public void addItemsToUserList() throws Exception {
         String profileId = "ProfId100";
         String listId = "uuid";
+        Mockito.when(userListRepository.findByProfileIdAndListId(Mockito.any(), Mockito.any())).thenReturn(new UserList());
+        Mockito.when(listConfig.getAllowedsize()).thenReturn(5);
+        Mockito.when(userListRepository.save(Mockito.any())).thenReturn(new UserList());
 
-        List<UserListProduct> userListProducts = getUserListProducts(1);
-        UserList mockUserList = new UserList();
-        mockUserList.setProfileId(profileId);
-        mockUserList.setListId(listId);
-
-        mockUserList.getUserListProducts().add(userListProducts.get(0));
-
-        Mockito.when(userListRepository.findByProfileIdAndListId(Mockito.any(), Mockito.any())).thenReturn(Mockito.mock(UserList.class));
-        Mockito.when(userListRepository.save(Mockito.any())).thenReturn(mockUserList);
-
-        assertThat(userListService.addProducts(profileId, listId, getUserListProducts(1))
-                .getUserListProducts().size()).isEqualTo(1);
+        assertThat(userListService.addProducts(profileId, listId, getDummyUserListProducts(1))).isNotNull();
 
     }
 
 
-    private List<UserListProduct> getUserListProducts(int count) {
+    private List<UserListProduct> getDummyUserListProducts(int count) {
         List<UserListProduct> productList = new ArrayList<>();
         for (int i=0; i<count; i++) {
-            UserListProduct product = new UserListProduct();
-            product.setProductId("ProdId_"+i);
-            product.setProductTitle("ProdTitle_"+i);
+            String productId = "ProdId_"+i;
+            String productTitle = "ProdTitle_"+i;
 
+            UserListProduct product = new UserListProduct(productId, productTitle);
             productList.add(product);
         }
 

@@ -51,15 +51,14 @@ public class UserListTests {
 
     @Test
     public void addProducts() throws Exception {
-        UserListProduct product = new UserListProduct();
+        UserListProduct product = new UserListProduct("id", "title");
         userList.addProduct(product, 1);
         assertThat(userList.getUserListProducts()).isNotEmpty();
     }
 
     @Test
     public void addProductWithAlreadyExist_throwsAllreadyExists() throws Exception {
-        UserListProduct product = new UserListProduct();
-        product.setProductId("ProdId100");
+        UserListProduct product = new UserListProduct("ProdId100", "ProdTitle100");
 
         userList.addProduct(product, 2);
         assertThat(userList.getUserListProducts().size()).isEqualTo(1);
@@ -71,8 +70,7 @@ public class UserListTests {
 
     @Test
     public void removeProducts() throws Exception {
-        UserListProduct product = new UserListProduct();
-        product.setProductId("ProdId100");
+        UserListProduct product = new UserListProduct("ProdId100", "ProdTitle100");
         userList.addProduct(product, 1);
         assertThat(userList.getUserListProducts().size()).isEqualTo(1);
 
@@ -92,10 +90,7 @@ public class UserListTests {
     private List<UserListProduct> getUserListProducts(int count) {
         List<UserListProduct> productList = new ArrayList<>();
         for (int i=0; i<count; i++) {
-            UserListProduct product = new UserListProduct();
-            product.setProductId("ProdId_"+i);
-            product.setProductTitle("ProdTitle_"+i);
-
+            UserListProduct product = new UserListProduct("ProdId_"+i, "ProdTitle_"+i);
             productList.add(product);
         }
 

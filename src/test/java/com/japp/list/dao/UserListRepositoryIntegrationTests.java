@@ -54,13 +54,8 @@ class UserListRepositoryIntegrationTests {
         userList.setListAccessType(UserListAccessType.PUBLIC);
         userList.setListType(UserListType.BLACK_FRIDAY);
 
-        UserListProduct userListProduct100 = new UserListProduct();
-        userListProduct100.setProductId("ProdId100");
-        userListProduct100.setProductTitle("ProdTitle100");
-
-        UserListProduct userListProduct101 = new UserListProduct();
-        userListProduct101.setProductId("ProdId101");
-        userListProduct101.setProductTitle("ProdTitle101");
+        UserListProduct userListProduct100 = new UserListProduct("ProdId100", "ProdTitle100");
+        UserListProduct userListProduct101 = new UserListProduct("ProdId101", "ProdTitle101");
 
         return userList;
     }

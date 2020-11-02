@@ -1,14 +1,12 @@
 package com.japp.list.model;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Value;
 
 /**
  * Value Object in the UserList Aggregate
  */
-@Data
+@Value
 public class UserListProduct {
-    private String productId;
-    private String productTitle;
+    String productId;
+    String productTitle;
 }

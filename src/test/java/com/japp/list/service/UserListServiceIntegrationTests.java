@@ -97,9 +97,9 @@ class UserListServiceIntegrationTests {
     private List<UserListProduct> getUserListProducts(int count, String startsWIth) {
         List<UserListProduct> productList = new ArrayList<>();
         for (int i=0; i<count; i++) {
-            UserListProduct product = new UserListProduct();
-            product.setProductId(startsWIth+"Id_"+i);
-            product.setProductTitle(startsWIth+"Title_"+i);
+            String productId = startsWIth+"Id_"+i;
+            String productTitle = startsWIth+"Title_"+i;
+            UserListProduct product = new UserListProduct(productId, productTitle);
             productList.add(product);
         }
         return productList;
