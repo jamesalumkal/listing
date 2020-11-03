@@ -1,6 +1,6 @@
 package com.japp.list.exceptions;
 
-public class ProductAlreadyExistsException extends Exception {
+public class ProductAlreadyExistsException extends RuntimeException {
 
     public ProductAlreadyExistsException() {
         super("Product already exists!");

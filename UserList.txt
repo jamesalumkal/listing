@@ -1,0 +1,16 @@
+{
+   "listName":"MyUserListName",
+   "profileId":"ProfileId100",
+   "listType":"REGULAR",
+   "listAccessType":"PUBLIC",
+   "userListProducts":[
+      {
+         "productId":"ShirtId_0",
+         "productTitle":"ShirtTitle_0"
+      },
+      {
+         "productId":"ShirtId_1",
+         "productTitle":"ShirtTitle_1"
+      }
+   ]
+}

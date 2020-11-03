@@ -1,6 +1,6 @@
 package com.japp.list.exceptions;
 
-public class SizeLimitExceededException extends Exception {
+public class SizeLimitExceededException extends RuntimeException {
 
     public SizeLimitExceededException() {
         super("Size Limit Exceeded!");
