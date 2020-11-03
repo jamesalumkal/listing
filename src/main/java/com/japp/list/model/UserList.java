@@ -1,27 +1,21 @@
 package com.japp.list.model;
 
-import com.japp.list.config.ListConfig;
 import com.japp.list.exceptions.ProductAlreadyExistsException;
 import com.japp.list.exceptions.SizeLimitExceededException;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-
 
 /**
  * Root entity of the UserList Aggregate
  */
-
-@Data
+@Data // Mutable, AllArgsConstructor
 @Document("UserList")
 public class UserList {
 
@@ -43,6 +37,9 @@ public class UserList {
         userListProducts = new ArrayList<>();
     }
 
+    /**
+     * Add products to the userList if business validations passed
+     */
     public boolean addProduct(UserListProduct prod, int allowedsize)
             throws SizeLimitExceededException, ProductAlreadyExistsException {
 
@@ -56,6 +53,9 @@ public class UserList {
         return true;
     }
 
+    /**
+     * remove products from the userList
+     */
     public void removeProduct(UserListProduct product) {
         userListProducts.removeIf(p -> p.getProductId().equals(product.getProductId()));
     }

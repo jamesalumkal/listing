@@ -81,13 +81,13 @@ public class UserListTests {
     @Test
     public void excedLimit_throwsException() throws Exception {
         assertThatThrownBy(() -> {
-            for (UserListProduct product : getUserListProducts(10)) {
+            for (UserListProduct product : getDummyUserListProducts(10)) {
                 userList.addProduct(product, 5);
             }
         }).isInstanceOf(SizeLimitExceededException.class).hasMessage("Size Limit Exceeded!");
     }
 
-    private List<UserListProduct> getUserListProducts(int count) {
+    private List<UserListProduct> getDummyUserListProducts(int count) {
         List<UserListProduct> productList = new ArrayList<>();
         for (int i=0; i<count; i++) {
             UserListProduct product = new UserListProduct("ProdId_"+i, "ProdTitle_"+i);
