@@ -29,5 +29,9 @@ public class UserListController {
         return ResponseEntity.status(HttpStatus.OK).body(userListResult);
     }
 
-
+    @PutMapping(path = "/userListProduct")
+    public ResponseEntity<UserList> addProductsToUserList(@RequestBody UserList userList) {
+        UserList userListResult = userListService.addProducts(userList.getProfileId(), userList.getListId(), userList.getUserListProducts());
+        return ResponseEntity.status(HttpStatus.OK).body(userListResult);
+    }
 }

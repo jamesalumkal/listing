@@ -22,6 +22,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
@@ -48,8 +49,8 @@ class UserListControllerTest {
 
     @Test
     public void getAllUserListsForAProfile_returnsAll() throws Exception {
-        UserList userList1 = getDummyUserList("ProfileId100", "MyBlackFridayList");
-        UserList userList2 = getDummyUserList("ProfileId100", "MyBackToSchoolList");
+        UserList userList1 = getDummyUserList("ProfileId100", "MyBlackFridayList", "Shirt");
+        UserList userList2 = getDummyUserList("ProfileId100", "MyBackToSchoolList", "Shirt");
 
         Mockito.when(userListService.getLists("ProfileId100")).thenReturn(Arrays.asList(userList1, userList2));
 
@@ -66,45 +67,49 @@ class UserListControllerTest {
 
     @Test
     public void createUserList_return() throws Exception {
-        UserList userList = getDummyUserList("ProfileId100", "MyBlackFridayList");
+        UserList userList = getDummyUserList("ProfileId100", "MyBlackFridayList", "Shirt");
 
         Mockito.when(userListService.createUserList(userList.getListName(), userList.getProfileId(), userList.getListAccessType(),
                 userList.getListType(), userList.getUserListProducts())).thenReturn(userList);
         Mockito.when(userListFactory.createUserList(Mockito.any(), Mockito.any())).thenReturn(userList);
         Mockito.when(userListRepository.save(Mockito.any())).thenReturn(userList);
 
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
-        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-        String requestJson=ow.writeValueAsString(userList);
-
-
         mockMvc.perform(MockMvcRequestBuilders.post("/userList")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(requestJson))
+                .content(getJsonOf(userList)))
                 .andExpect(MockMvcResultMatchers.status().is(200));
-
     }
 
 
-    private UserList getDummyUserList(String profileId, String userListName) {
+    @Test
+    public void addProductsToUserList_return() throws Exception {
+        UserList userList = getDummyUserList("ProfileId100", "MyBlackFridayList", "Books");
+        List<UserListProduct> userListProducts = getDummyUserListProducts(3, "Backpack");
+        for (UserListProduct product: userListProducts) {
+            userList.addProduct(product, 10);
+        }
+
+        Mockito.when(userListService.addProducts(Mockito.any(), Mockito.any(), Mockito.anyList())).thenReturn(userList);
+        Mockito.when(userListRepository.findByProfileIdAndListId(Mockito.any(), Mockito.any())).thenReturn(userList);
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/userList/userListProduct")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(getJsonOf(userList)))
+                .andExpect(MockMvcResultMatchers.status().is(200))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.userListProducts.size()", Matchers.is(5)));
+
+    }
+
+    private UserList getDummyUserList(String profileId, String userListName, String ProdNameStartsWith) {
         UserList userList = new UserList();
         userList.setListName(userListName);
         userList.setProfileId(profileId);
         userList.setListType(UserListType.REGULAR);
         userList.setListAccessType(UserListAccessType.PUBLIC);
-        List<UserListProduct> userListProducts = getDummyUserListProducts(2, "Shirt");
+        List<UserListProduct> userListProducts = getDummyUserListProducts(2, ProdNameStartsWith);
 
         for (UserListProduct userListProduct : userListProducts) {
-            try {
-                userList.addProduct(userListProduct, 2);
-            } catch (SizeLimitExceededException e) {
-                // do not expect this happen here
-                e.printStackTrace();
-            } catch (ProductAlreadyExistsException e) {
-                // do not expect this happen here
-                e.printStackTrace();
-            }
+            userList.addProduct(userListProduct, 2);
         }
 
         return userList;
@@ -119,6 +124,13 @@ class UserListControllerTest {
             productList.add(product);
         }
         return productList;
+    }
+
+    private String getJsonOf(UserList userList) throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        return ow.writeValueAsString(userList);
     }
 
 }
