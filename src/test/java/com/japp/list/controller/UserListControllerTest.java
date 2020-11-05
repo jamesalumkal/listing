@@ -100,6 +100,21 @@ class UserListControllerTest {
 
     }
 
+    @Test
+    public void removeProductsFromUserList_return() throws Exception {
+        UserList userList = getDummyUserList("ProfileId100", "MyBlackFridayList", "Books");
+
+        Mockito.when(userListService.removeProducts(Mockito.any(), Mockito.any(), Mockito.anyList())).thenReturn(userList);
+        Mockito.when(userListRepository.findByProfileIdAndListId(Mockito.any(), Mockito.any())).thenReturn(userList);
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/userList/userListProduct")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(getJsonOf(userList)))
+                .andExpect(MockMvcResultMatchers.status().is(200))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.userListProducts.size()", Matchers.is(2)));
+
+    }
+
     private UserList getDummyUserList(String profileId, String userListName, String ProdNameStartsWith) {
         UserList userList = new UserList();
         userList.setListName(userListName);

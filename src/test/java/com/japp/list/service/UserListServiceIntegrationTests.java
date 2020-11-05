@@ -93,6 +93,16 @@ class UserListServiceIntegrationTests {
         assertThat(userListService.getList(profileId, userListFromDB.getListId()).getUserListProducts().size()).isEqualTo(2);
     }
 
+    @Test
+    public void removeProductsFromUserList_return() throws Exception {
+        String userListName = "UserListName";
+        String profileId = "ProfId105";
+        UserListType userListType = UserListType.REGULAR;
+        UserListAccessType userListAccessType = UserListAccessType.PUBLIC;
+        List<UserListProduct> userListProducts = getUserListProducts(2, "Shirt");
+        UserList userListFromDB = userListService.createUserList(userListName, profileId, userListAccessType, userListType, userListProducts);
+        assertThat(userListService.removeProducts(profileId, userListFromDB.getListId(), userListProducts.subList(0,1)).getUserListProducts().size()).isEqualTo(1);
+    }
 
     private List<UserListProduct> getUserListProducts(int count, String startsWIth) {
         List<UserListProduct> productList = new ArrayList<>();

@@ -34,4 +34,11 @@ public class UserListController {
         UserList userListResult = userListService.addProducts(userList.getProfileId(), userList.getListId(), userList.getUserListProducts());
         return ResponseEntity.status(HttpStatus.OK).body(userListResult);
     }
+
+    @DeleteMapping(path = "/userListProduct")
+    public ResponseEntity<UserList> removeProductsToUserList(@RequestBody UserList userList) {
+        UserList userListResult = userListService.removeProducts(userList.getProfileId(), userList.getListId(), userList.getUserListProducts());
+        return ResponseEntity.status(HttpStatus.OK).body(userListResult);
+    }
+
 }

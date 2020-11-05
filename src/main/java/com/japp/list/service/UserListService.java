@@ -26,4 +26,6 @@ public interface UserListService {
 
     public UserList addProducts(String profileId, String listId, List<UserListProduct> userListProducts)
             throws SizeLimitExceededException, ProductAlreadyExistsException;
+
+    public UserList removeProducts(String profileId, String listId, List<UserListProduct> userListProducts);
 }

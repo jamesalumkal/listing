@@ -111,6 +111,16 @@ class UserListServiceTests {
 
     }
 
+    @Test
+    public void removeItemsFromUserList() throws Exception {
+        String profileId = "ProfId100";
+        String listId = "uuid";
+        Mockito.when(userListRepository.findByProfileIdAndListId(Mockito.any(), Mockito.any())).thenReturn(new UserList());
+        Mockito.when(userListRepository.save(Mockito.any())).thenReturn(new UserList());
+
+        assertThat(userListService.removeProducts(profileId, listId, getDummyUserListProducts(1))).isNotNull();
+
+    }
 
     private List<UserListProduct> getDummyUserListProducts(int count) {
         List<UserListProduct> productList = new ArrayList<>();

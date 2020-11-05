@@ -4,6 +4,7 @@ import com.japp.list.config.ListConfig;
 import com.japp.list.dao.UserListRepository;
 import com.japp.list.exceptions.ProductAlreadyExistsException;
 import com.japp.list.exceptions.SizeLimitExceededException;
+import com.japp.list.exceptions.UserListAlreadyExistsException;
 import com.japp.list.model.UserList;
 import com.japp.list.model.UserListAccessType;
 import com.japp.list.model.UserListProduct;
@@ -30,6 +31,10 @@ public class UserListServiceImpl implements UserListService {
     public UserList createUserList(String listName, String profileId, UserListAccessType userListAccessType,
                                    UserListType userListType, List<UserListProduct> userListProducts)
                 throws  SizeLimitExceededException, ProductAlreadyExistsException {
+
+        if (isUserListAlreadyExists(profileId,listName ))
+            throw new UserListAlreadyExistsException();
+
         UserList userList = userListFactory.createUserList(userListType, userListAccessType);
         userList.setListName(listName);
         userList.setProfileId(profileId);
@@ -61,5 +66,23 @@ public class UserListServiceImpl implements UserListService {
         return userListRepository.save(userList);
     }
 
+    @Override
+    public UserList removeProducts(String profileId, String listId, List<UserListProduct> userListProducts) {
+        UserList userList = userListRepository.findByProfileIdAndListId(profileId, listId);
+        if (null != userList) {
+            for (UserListProduct prod : userListProducts) {
+                userList.removeProduct(prod);
+            }
+        }
+        return userListRepository.save(userList);
+    }
 
+    private boolean isUserListAlreadyExists(String profileId, String listName) {
+        List<UserList> userLists = userListRepository.findByProfileId(profileId);
+        for (UserList userList: userLists) {
+            if (listName.equals(userList.getListName()))
+                return true;
+        }
+        return false;
+    }
 }
