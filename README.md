@@ -5,7 +5,7 @@ Motivation: A demo application created for customers to create a list, say, Wish
 
 
 ## Technology stack
-SpringBoot, Embeded Mongo, Junit5
+SpringBoot, Embeded Mongo, Junit5/AssertJ, 
 
 ## Methodologies
 DDD, TDD
