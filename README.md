@@ -5,11 +5,13 @@ Motivation: A demo application created for customers to create a list, say, Wish
 
 
 ## Technology stack
-SpringBoot, Embeded Mongo, Junit5/AssertJ, Docker
+SpringBoot, Embeded Mongo, Junit5/AssertJ
 
 ## Methodologies
 DDD, TDD, Containerized, 
 
+## Deployment
+Docker, GCP Kubernetis engine 
 
 ## How to run locally?
 
@@ -21,7 +23,17 @@ OR
 
 Download the project from github and run as a springboot application.
 
-Following are the service details
+## How to run K8s engine?
+Log into your gcloud container clusters
+
+Upload the k8s-listapp.yaml to your cluster through gcloud shell
+
+run > $ kubectl apply -f k8s-listapp.yaml
+
+Access the application services on the exposed IP:port
+
+
+## Service details
 
 Get UserList: GET: http://localhost:8080/userList/profileId/<ProfileId>
 
