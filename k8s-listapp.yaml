@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-listapp-deployment
+  labels:
+    app: k8s-listapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k8s-listapp
+  template:
+    metadata:
+      labels:
+        app: k8s-listapp
+    spec:
+      containers:
+        - name: k8s-listapp
+          image: jamesalumkal/listapp
+          ports:
+            - containerPort: 8080
