@@ -13,6 +13,39 @@ DDD, TDD, Containerized,
 ## Deployment
 Docker, GCP Kubernetis engine 
 
+## Development Steps
+1. Develop an executable spring boot Project
+	a. make sure parent pom has the <finalName> inside <build>
+
+2. Create a docker file
+	a. sample file contains following
+		FROM java:8
+		EXPOSE 8080
+		ADD target/<finalName>.jar <finalName>.jar
+		ENTRYPOINT ["java","-jar","<finalName>.jar"]
+
+		Refer: Dockerfile
+		
+3. Build a local image of the docker
+	a. Open terminal, cd to the project source dir where the Dockerfile (mostly project root)
+	b. docker login, enter userid, password of the dockerhub
+	c. run > $ docker build -t <application name> .
+		ex: docker build -t list-app .	
+	d. view the created image, run > $ docker images
+	 
+4. Tag and Push image to docker hub
+	a. run > $ docker tag <local docker Image> <docker-user>/<name>
+			ex: docker tag list-app <docker-user>/listapp
+	
+	b. run > $ docker push <docker-user>/listapp		
+
+5. Clean local, Pull and Run Image from docker hub
+
+	a. remove the local images of the app
+		run > $ docker rmi list-app <docker-user>/listapp
+	
+	b. docker run -p 8080:8080 jamesalumkal/listapp
+
 ## How to run locally?
 
 If you have docker installed, 
