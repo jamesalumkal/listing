@@ -133,5 +133,5 @@ Remove Products from UserList: DEL:
 
 
 ---
-###### Licence & copyright
+###### Licence & Copyright
 © James Alumkal
